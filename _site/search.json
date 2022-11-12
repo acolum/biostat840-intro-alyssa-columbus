@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "My name is Alyssa Columbus, and I am a first-year Biostatistics PhD student and Vivien Thomas Scholar at the Johns Hopkins Bloomberg School of Public Health. Before starting my PhD, I worked professionally as a data scientist, information security analyst, and consultant. In addition, I have conducted research on multiple statistical topics, including breast cancer risk assessment models in a multiethnic patient population and neural survival analysis models applied to circadian rhythms. I hold a Bachelor of Science in Mathematics from the University of California, Irvine and a Master of Science in Applied and Computational Mathematics from Johns Hopkins University."
+  },
+  {
+    "objectID": "about.html#professional-interests",
+    "href": "about.html#professional-interests",
+    "title": "About",
+    "section": "Professional Interests",
+    "text": "Professional Interests\n\nAcademic Research\nMy academic publications can be found on my ORCID and Google Scholar profiles.\n\n\nSpeaking\nI enjoy speaking to a variety of audiences (e.g., students, experienced professionals, business leaders, and software engineers) about mathematics, statistics, data science, and machine learning. Browse a list of selected past presentations and panels.\n\n\nWriting\nI have written technical guides, tutorials, and articles that have been published and featured by leading organizations, including Microsoft, O’Reilly Media, and the Association for Computing Machinery. Explore my recent publications."
+  },
+  {
+    "objectID": "example-analysis.html",
+    "href": "example-analysis.html",
+    "title": "Example analysis",
+    "section": "",
+    "text": "Artwork by @allison_horst"
+  },
+  {
+    "objectID": "example-analysis.html#question",
+    "href": "example-analysis.html#question",
+    "title": "Example analysis",
+    "section": "Question",
+    "text": "Question\nHow do flipper lengths compare across three penguin species (i.e., Adélie, Chinstrap, and Gentoo) observed on three different islands in the Palmer Archipelago of Antarctica in 2008?"
+  },
+  {
+    "objectID": "example-analysis.html#audience",
+    "href": "example-analysis.html#audience",
+    "title": "Example analysis",
+    "section": "Audience",
+    "text": "Audience\nThe intended audience for this data analysis is anyone who is interested in exploring data about Antarctic penguins’ flipper measurements with R."
+  },
+  {
+    "objectID": "example-analysis.html#original-data",
+    "href": "example-analysis.html#original-data",
+    "title": "Example analysis",
+    "section": "Original Data",
+    "text": "Original Data\nThe original data in this analysis is the penguins dataset from the palmerpenguins package (Horst, Hill, and Gorman 2020). This dataset contains size measurements of adult foraging penguins near the Palmer Station in Antarctica.\n\nDescription\nAccording to the palmerpenguins package’s documentation, data was collected on three different penguin species and released by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER. All of the observations were recorded in 2007-2009 and originally published in 2014 (Gorman, Williams, and Fraser 2014).\n\n\nData Dictionary\nThe documentation for the penguins dataset provides a comprehensive data dictionary."
+  },
+  {
+    "objectID": "example-analysis.html#setup",
+    "href": "example-analysis.html#setup",
+    "title": "Example analysis",
+    "section": "Setup",
+    "text": "Setup\n\n\n\n\n\n\nSetting Up for Success\n\n\n\nFirst, we need to load the tidyverse set of packages (Wickham et al. 2019) and the penguins dataset.\n\n\n\n\nThe tidyverse is a collection of open source R packages built for data manipulation, exploration, and visualization.\nMore information can be found at https://www.tidyverse.org.\n\n# Load the tidyverse\nlibrary(tidyverse)\n# Load the `penguins` dataset\npenguins <- palmerpenguins::penguins"
+  },
+  {
+    "objectID": "example-analysis.html#data-wrangling",
+    "href": "example-analysis.html#data-wrangling",
+    "title": "Example analysis",
+    "section": "Data Wrangling",
+    "text": "Data Wrangling\n\n\n\n\n\n\nWrangling Penguins\n\n\n\nTo wrangle the penguins dataset, we will primarily use the tidyverse packages, dplyr and tidyr.\n\n\nLet’s clean up this dataset by:\n\nremoving all NAs,\nfiltering to only include observations from 2008,\nreplacing all observations spelled “Adelie” with “Adélie,”\ncapitalizing “male” and “female,” and\nselecting only variables that are relevant to this analysis.\n\n\n# Using `dplyr` and `tidyr` to wrangle `penguins`\nwrangled_penguins <- penguins %>% \n  # Remove NA values from all columns\n  tidyr::drop_na() %>% \n  # Filter to only include observations from 2008\n  dplyr::filter(year == 2008) %>% \n  # Replace all \"Adelie\" values with \"Adélie\" and capitalize \"male\" and \"female\"\n  dplyr::mutate(dplyr::across('species', stringr::str_replace, 'Adelie', 'Adélie'),\n                sex = stringr::str_to_title(sex)) %>% \n  # Select only the species, island, flipper_length_mm, and sex variables\n  dplyr::select(species, island, flipper_length_mm, sex)\n\n# Glimpsing this new, wrangled dataset\ndplyr::glimpse(wrangled_penguins)\n\nRows: 113\nColumns: 4\n$ species           <chr> \"Adélie\", \"Adélie\", \"Adélie\", \"Adélie\", \"Adélie\", \"A…\n$ island            <fct> Biscoe, Biscoe, Biscoe, Biscoe, Biscoe, Biscoe, Bisc…\n$ flipper_length_mm <int> 186, 188, 190, 200, 187, 191, 186, 193, 181, 194, 18…\n$ sex               <chr> \"Female\", \"Male\", \"Female\", \"Male\", \"Female\", \"Male\"…\n\n\nNow, let’s quantitatively explore this dataset. Overall, what is the average flipper length (in mm) for each of the three penguin species?\n\n# Finding the average flipper length (in mm) for each penguin species\nwrangled_penguins %>% \n  # Group the wrangled `penguins` by species\n  dplyr::group_by(species) %>% \n  # Compute the average flipper length for each species\n  dplyr::summarize(mean(flipper_length_mm))\n\n# A tibble: 3 × 2\n  species   `mean(flipper_length_mm)`\n  <chr>                         <dbl>\n1 Adélie                         191.\n2 Chinstrap                      198.\n3 Gentoo                         218.\n\n\nClearly, Gentoo penguins have the longest flipper length on average of the three species.\nLet’s dig a little deeper. What is the average flipper length (in mm) for each of the three penguin species when also considering their island habitats and sexes?\n\n# Finding the average flipper length (in mm) for each penguin species,\n# also taking into account their island and sex\nwrangled_penguins %>% \n  # Group the wrangled `penguins` by species, island, and sex\n  dplyr::group_by(species, island, sex) %>% \n  # Compute the average flipper length for these groups\n  dplyr::summarize(mean(flipper_length_mm))\n\n# A tibble: 10 × 4\n# Groups:   species, island [5]\n   species   island    sex    `mean(flipper_length_mm)`\n   <chr>     <fct>     <chr>                      <dbl>\n 1 Adélie    Biscoe    Female                      187.\n 2 Adélie    Biscoe    Male                        193.\n 3 Adélie    Dream     Female                      189 \n 4 Adélie    Dream     Male                        195 \n 5 Adélie    Torgersen Female                      190 \n 6 Adélie    Torgersen Male                        194.\n 7 Chinstrap Dream     Female                      193.\n 8 Chinstrap Dream     Male                        203.\n 9 Gentoo    Biscoe    Female                      213 \n10 Gentoo    Biscoe    Male                        222.\n\n\nFrom this table, we can gather that Gentoo penguins still have the longest flipper length on average of the three species. However, we can observe more nuance in how female Gentoo penguins have shorter flippers on average than male Gentoo penguins.\nAdditionally, we can note that although Gentoo penguins only live on one island (Biscoe Island), Adélie penguins live on three different islands (Biscoe, Dream, and Torgersen Islands), and their mean flipper measurements vary by both island and sex."
+  },
+  {
+    "objectID": "example-analysis.html#data-visualization",
+    "href": "example-analysis.html#data-visualization",
+    "title": "Example analysis",
+    "section": "Data Visualization",
+    "text": "Data Visualization\n\n\n\n\n\n\nVisualizing Penguin Patterns\n\n\n\nTo visually explore the penguins dataset, we will use the ggplot2 package (Wickham 2016).\n\n\nLet’s dig even deeper into our analysis by visualizing the distributions of flipper lengths by species.\n\n# Making a plot of the distributions of flipper lengths by species, faceted by species\nggplot(data = wrangled_penguins, mapping = aes(x = flipper_length_mm)) +  \n  geom_histogram(binwidth = 5, boundary = 0,  \n                 color = \"black\", fill = \"lightblue\") +  \n  labs(title = \"Distributions of Flipper Lengths by Antarctic Penguin Species\",\n       subtitle = \"Compared to Adélie and Chinstrap penguins, Gentoo penguins generally appear to have longer flippers.\",\n       caption = \"Data Source: palmerpenguins\",\n       x = \"Flipper Length (mm)\",  \n       y = \"Frequency of Penguin Observations\") +  \n  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +  \n  theme_minimal() +  \n  facet_wrap(vars(species))\n\n\n\n\nAlthough this plot nicely shows the distinct distributions of the three species’ flipper lengths, it is difficult to accurately compare the distributions and their key characteristics (e.g., their means). A more effective way to visualize these three distributions and compare them is to use boxplots instead of histograms.\n\n# Making a plot of the distributions of flipper lengths by species with boxplots\nggplot(data = wrangled_penguins, mapping = aes(x = species, y = flipper_length_mm)) +  \n  geom_boxplot(color = \"black\", fill = \"lightblue\") +  \n  labs(title = \"Comparing Distributions of Flipper Lengths by Antarctic Penguin Species\",\n       subtitle = \"Gentoo penguins, followed by Chinstrap and Adélie penguins, have longer flippers.\",\n       caption = \"Data Source: palmerpenguins\",\n       x = \"Species\",\n       y = \"Flipper Length (mm)\") +  \n  theme_minimal()\n\n\n\n\nFrom this plot, it’s much more clear that Gentoo penguins, followed by Chinstrap and Adélie penguins, respectively, have the longest flippers.\nLet’s extend this analysis of flipper length distributions to also include the penguins’ island habitats and sexes.\n\n# Making a plot of the distributions of flipper lengths by species, faceted by island and sex\nggplot(data = wrangled_penguins, mapping = aes(x = flipper_length_mm, group = species, fill = species)) + \n  geom_density(alpha = 0.4) + \n  labs(title = \"Distributions of Flipper Lengths by Antarctic Penguin Species, Faceted by Sex and Island\",\n       subtitle = \"Male penguins on Biscoe Island tend to have the longest flippers, followed by females on the same island.\",\n       caption = \"Data Source: palmerpenguins\",\n       x = \"Flipper Length (mm)\",  \n       y = \"Density of Penguin Observations\",\n       fill = \"Species\") +  \n  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +  \n  scale_fill_manual(values = c(\"#45b6fe\", \"#296d98\", \"#0e2433\")) +\n  theme_minimal() +  \n  facet_grid(vars(island), vars(sex))\n\n\n\n\nSimilar to the point we noted above in our quantitative exploration of the dataset, there is more nuance captured in visually analyzing flipper length distributions when also considering the penguins’ habitats and sexes."
+  },
+  {
+    "objectID": "example-analysis.html#summary",
+    "href": "example-analysis.html#summary",
+    "title": "Example analysis",
+    "section": "Summary",
+    "text": "Summary\nOverall, Gentoo penguins have the largest flipper lengths on average, followed by Chinstrap and Adélie penguins, respectively. Within all three species, male penguins tend to have longer flippers than female penguins. Gentoo and Chinstrap penguins each only live on one island (Biscoe Island and Dream Island, respectively), while Adélie penguins live on three different islands (Biscoe, Dream, and Torgersen Islands). In Adélie penguins, there are notable differences in each island population’s distribution of flipper measurements. Regardless of sex, Adélie penguins that live on Biscoe Island generally have the shortest flippers."
+  },
+  {
+    "objectID": "example-analysis.html#functions-used",
+    "href": "example-analysis.html#functions-used",
+    "title": "Example analysis",
+    "section": "Functions Used",
+    "text": "Functions Used\nThe following table provides a brief summary of the functions used in this analysis.\n\n\nDocumentation for each of the functions listed in this table can be found at https://dplyr.tidyverse.org, https://tidyr.tidyverse.org, and https://ggplot2.tidyverse.org.\n\n\n\ndplyr\ntidyr\nggplot2\n\n\n\n\nfilter()\ndrop_na()\ngeom_histogram()\n\n\nmutate()\n\ngeom_boxplot()\n\n\nacross()\n\ngeom_density()\n\n\nselect()\n\n\n\n\nglimpse()\n\n\n\n\ngroup_by()\n\n\n\n\nsummarize()"
+  },
+  {
+    "objectID": "index.html#contact",
+    "href": "index.html#contact",
+    "title": "Alyssa Columbus",
+    "section": "Contact",
+    "text": "Contact\n\nThe best way to contact me is via email."
+  }
+]

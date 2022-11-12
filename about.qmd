@@ -1,0 +1,21 @@
+---
+title: "About"
+---
+
+## Background
+
+My name is [Alyssa Columbus](https://alyssacolumbus.com), and I am a first-year [Biostatistics PhD student](https://publichealth.jhu.edu/departments/biostatistics) and [Vivien Thomas Scholar](https://provost.jhu.edu/about/vivien-thomas-scholars-initiative/) at the [Johns Hopkins Bloomberg School of Public Health](https://publichealth.jhu.edu/). Before starting my PhD, I worked professionally as a data scientist, information security analyst, and consultant. In addition, I have conducted research on multiple statistical topics, including breast cancer risk assessment models in a multiethnic patient population and neural survival analysis models applied to circadian rhythms. I hold a Bachelor of Science in Mathematics from the [University of California, Irvine](https://uci.edu/) and a Master of Science in Applied and Computational Mathematics from [Johns Hopkins University](https://jhu.edu/).
+
+## Professional Interests
+
+### Academic Research
+
+My academic publications can be found on my [ORCID](https://orcid.org/0000-0002-5510-8364) and [Google Scholar](https://scholar.google.com/citations?user=hV-1lnAAAAAJ&hl=en) profiles.
+
+### Speaking
+
+I enjoy speaking to a variety of audiences (e.g., students, experienced professionals, business leaders, and software engineers) about mathematics, statistics, data science, and machine learning. [Browse a list of selected past presentations and panels](https://alyssacolumbus.com/speaking/).
+
+### Writing
+
+I have written technical guides, tutorials, and articles that have been published and featured by leading organizations, including [Microsoft](https://blog.revolutionanalytics.com/2018/08/how-to-use-r-with-excel.html), [O'Reilly Media](https://www.oreilly.com/library/view/97-things-every/9781098101381/), and the [Association for Computing Machinery](https://www.acm.org/articles/careernews/2019/careernews-04232019). [Explore my recent publications](https://alyssacolumbus.com/writing/).
